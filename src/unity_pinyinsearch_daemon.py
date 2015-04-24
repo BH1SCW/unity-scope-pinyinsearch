@@ -35,8 +35,8 @@ SEARCH_HINT = _('Pinyin Search For Dash')
 NO_RESULTS_HINT = _('Sorry, there are no Result that match your search.')
 PROVIDER_CREDITS = _('')
 SVG_DIR = '/usr/share/icons/unity-icon-theme/places/svg/'
-PROVIDER_ICON = SVG_DIR + 'group-browserbookmarks.svg'
-DEFAULT_RESULT_ICON = SVG_DIR + 'group-browserbookmarks.svg'
+PROVIDER_ICON = SVG_DIR + 'group-files.svg'
+DEFAULT_RESULT_ICON = SVG_DIR + 'service-askubuntu.svg'
 DEFAULT_RESULT_MIMETYPE = 'text/html'
 DEFAULT_RESULT_TYPE = Unity.ResultType.DEFAULT
 FIREFOX_EXECUTABLE = 'gvfs-open '
@@ -44,8 +44,8 @@ FIREFOX_EXECUTABLE = 'gvfs-open '
 BOOKMARKS_PATH = os.getenv("HOME") + "/.pinyinsearch/"
 BOOKMARKS_QUERY = '''select * from dashpinyin where pinyin LIKE '%%%s%%' '''
 #/home/kroody/test/pipe/chongceshi.txt
-c1 = {'id': 'bookmarks',
-      'name': _('Bookmarks'),
+c1 = {'id': 'records',
+      'name': _('Results'),
       'icon': SVG_DIR + 'group-installed.svg',
       'renderer': Unity.CategoryRenderer.VERTICAL_TILE}
 CATEGORIES = [c1]
@@ -55,7 +55,7 @@ FILTERS = []
 EXTRA_METADATA = []
 
 
-def get_bookmarks_from_firefox(path, search):
+def get_records_from_db(path, search):
     # Build Firefox's profile paths
     pinyinsearch_db = path + ".pinyinsearch.sqlite"
     results = []
@@ -84,44 +84,22 @@ def get_bookmarks_from_firefox(path, search):
 
 
 def search(search, filters):
-    '''
-    Search for help documents matching the search string
-    '''
     results = []
-    bookmarks = get_bookmarks_from_firefox(BOOKMARKS_PATH, search)
-    if bookmarks == None:
+    records = get_records_from_db(BOOKMARKS_PATH, search)
+    if records == None:
         return None
-    for bookmark in bookmarks:
-        print('==00000000000000===OVER =========================================================')
-        print (bookmark)
-        icon = '/usr/share/icons/cab_extract.png'
+    for record in records:
+        print (record)
+        icon = '/usr/share/icons/gnome/scalable/places/ubuntu-logo.png'
         if not os.path.exists(icon):
             icon = None
-        results.append({'uri': "file://" + bookmark,
+        results.append({'uri': "file://" + record,
             'icon': icon,
             'category': 0,
-            'title': bookmark,
-            'user': GLib.Variant('s', bookmark)})
+            'title': record,
+            'user': GLib.Variant('s', record)})
         
         return results
-
-'''
-        results.append({'uri': "file:///home/kroody/改装费用",
-                        'icon': icon,
-                        'category': 0,
-                        'title': "测试",
-                        'user': GLib.Variant('s', bookmark[3])})
-        results.append({'uri': "file:///home/kroody/Documents/sogou/SOGOU VPN配置手册.docx",
-                        'icon': icon,
-                        'category': 0,
-                        'title': "SOGOU VPN配置手册.docx",
-                        'user': GLib.Variant('s', bookmark[3])})
-        results.append({'uri': "file:///home/kroody/Documents/sogou/linux输入法18款预置皮肤.rar",
-                        'icon': icon,
-                        'category': 0,
-                        'title': "linux输入法18款预置皮肤.rar",
-                        'user': GLib.Variant('s', bookmark[3])})
- '''
 
 def activate(result, metadata, id):
     '''
