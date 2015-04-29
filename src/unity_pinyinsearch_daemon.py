@@ -34,13 +34,15 @@ UNIQUE_PATH = '/com/canonical/unity/scope/pinyinsearch'
 SEARCH_HINT = _('Pinyin Search For Dash')
 NO_RESULTS_HINT = _('Sorry, there are no Result that match your search.')
 PROVIDER_CREDITS = _('')
-SVG_DIR = '/usr/share/icons/unity-icon-theme/places/svg/'
-PROVIDER_ICON = SVG_DIR + 'group-files.svg'
+#SVG_DIR = '/usr/share/icons/unity-icon-theme/places/svg/'
+SVG_DIR = '/usr/share/icons/gnome/scalable/places'
+#PROVIDER_ICON = SVG_DIR + 'group-files.svg'
+PROVIDER_ICON = SVG_DIR + 'folder-documents-symolic.svg'
 DEFAULT_RESULT_ICON = SVG_DIR + 'service-askubuntu.svg'
 DEFAULT_RESULT_MIMETYPE = 'text/html'
 DEFAULT_RESULT_TYPE = Unity.ResultType.DEFAULT
-FIREFOX_EXECUTABLE = 'gvfs-open '
-#FIREFOX_EXECUTABLE = 'mimeopen -n '
+EXECUTABLE = 'gvfs-open '
+#EXECUTABLE = 'mimeopen -n '
 BOOKMARKS_PATH = os.getenv("HOME") + "/.pinyinsearch/"
 BOOKMARKS_QUERY = '''select * from dashpinyin where pinyin LIKE '%%%s%%' '''
 #/home/kroody/test/pipe/chongceshi.txt
@@ -56,11 +58,8 @@ EXTRA_METADATA = []
 
 
 def get_records_from_db(path, search):
-    # Build Firefox's profile paths
     pinyinsearch_db = path + ".pinyinsearch.sqlite"
     results = []
-    search_test = 'chongceshi'
-    print('=================================================================================')
     if os.path.exists(pinyinsearch_db):
         try:
             sqlite_query = BOOKMARKS_QUERY % (search)
@@ -68,9 +67,8 @@ def get_records_from_db(path, search):
             conn = sqlite3.connect(pinyinsearch_db)
             connection = conn.cursor()
             connection.execute(sqlite_query)
-            records = connection.fetchall()
+            records = set(connection.fetchall())
             for record in records:
-                print(record[1])
                 results.append(record[1])
             connection.close()
         except sqlite3.DatabaseError:
@@ -79,7 +77,6 @@ def get_records_from_db(path, search):
     else:
         print('database file not exists')
 
-    print('===================OVER =========================================================')
     return results
 
 
@@ -99,15 +96,10 @@ def search(search, filters):
             'title': record,
             'user': GLib.Variant('s', record)})
         
-        return results
+    return results
 
 def activate(result, metadata, id):
-    '''
-    Open the url in the default webbrowser
-    Args:
-      uri: The url to be opened
-    '''
-    parameters = [FIREFOX_EXECUTABLE, result.uri]
+    parameters = [EXECUTABLE, result.uri]
     GLib.spawn_async(parameters)
     return Unity.ActivationResponse(handled=Unity.HandledType.HIDE_DASH, goto_uri=None)
 
