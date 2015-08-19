@@ -70,6 +70,8 @@ def get_records_from_db(path, search):
             records = set(connection.fetchall())
             for record in records:
                 results.append(record[1])
+
+            results = list(set(results))
             connection.close()
         except sqlite3.DatabaseError:
             print('something err')
