@@ -43,8 +43,8 @@ DEFAULT_RESULT_MIMETYPE = 'text/html'
 DEFAULT_RESULT_TYPE = Unity.ResultType.DEFAULT
 EXECUTABLE = 'gvfs-open '
 #EXECUTABLE = 'mimeopen -n '
-BOOKMARKS_PATH = os.getenv("HOME") + "/.pinyinsearch/"
-BOOKMARKS_QUERY = '''select * from dashpinyin where pinyin LIKE '%%%s%%' '''
+DB_PATH = os.getenv("HOME") + "/.pinyinsearch/"
+DB_QUERY = '''select * from dashpinyin where pinyin LIKE '%%%s%%' '''
 #/home/kroody/test/pipe/chongceshi.txt
 c1 = {'id': 'records',
       'name': _('Results'),
@@ -60,9 +60,12 @@ EXTRA_METADATA = []
 def get_records_from_db(path, search):
     pinyinsearch_db = path + "pinyin.db"
     results = []
+    tmp = ''
+    for i in range(0, len(search)):
+        tmp = tmp + search[i] + '%'
     if os.path.exists(pinyinsearch_db):
         try:
-            sqlite_query = BOOKMARKS_QUERY % (search)
+            sqlite_query = DB_QUERY % (tmp)
             print(sqlite_query)
             conn = sqlite3.connect(pinyinsearch_db)
             connection = conn.cursor()
@@ -84,7 +87,7 @@ def get_records_from_db(path, search):
 
 def search(search, filters):
     results = []
-    records = get_records_from_db(BOOKMARKS_PATH, search)
+    records = get_records_from_db(DB_PATH, search)
     if records == None:
         return None
     for record in records:
