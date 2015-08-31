@@ -58,7 +58,7 @@ EXTRA_METADATA = []
 
 
 def get_records_from_db(path, search):
-    pinyinsearch_db = path + ".pinyinsearch.sqlite"
+    pinyinsearch_db = path + "pinyin.db"
     results = []
     if os.path.exists(pinyinsearch_db):
         try:
