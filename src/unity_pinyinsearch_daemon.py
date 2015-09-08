@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # -*- coding: utf-8 -*-
 
-# Copyright(C) 2013 Mark Tully <markjtully@gmail.com>
+# Copyright(C) 2015 FanJun Kong <fanjun.kong@canonical.com>
 # This program is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License version 3, as published
 # by the Free Software Foundation.
@@ -60,12 +60,12 @@ EXTRA_METADATA = []
 def get_records_from_db(path, search):
     pinyinsearch_db = path + "pinyin.db"
     results = []
-    tmp = ''
-    for i in range(0, len(search)):
-        tmp = tmp + search[i] + '%'
+    #tmp = ''
+    #for i in range(0, len(search)):
+    #    tmp = tmp + search[i] + '%'
     if os.path.exists(pinyinsearch_db):
         try:
-            sqlite_query = DB_QUERY % (tmp)
+            sqlite_query = DB_QUERY % (search)
             print(sqlite_query)
             conn = sqlite3.connect(pinyinsearch_db)
             connection = conn.cursor()
