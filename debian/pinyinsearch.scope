@@ -1,0 +1,20 @@
+[Scope]
+DBusName=com.canonical.Unity.Scope.Pinyinsearch
+DBusPath=/com/canonical/unity/scope/pinyinsearch
+Icon=/usr/share/icons/unity-icon-theme/places/svg/group-browserbookmarks.svg
+QueryBinary=
+Keywords=pinyinsearch;Chinese;
+RequiredMetadata=
+OptionalMetadata=
+Loader=/usr/share/unity-scopes/pinyinsearch/unity_pinyinsearch_daemon.py
+Module=pinyinsearch.unity_pinyinsearch_daemon
+ModuleType=python3
+RemoteContent=false
+Type=files
+Name=Pinyin Search
+Description=Unity search plugin that enables searching Chinese files using PinYin and displaying results in the Dash
+SearchHint=Search Files Using PinYin
+
+[Desktop Entry]
+X-Ubuntu-Gettext-Domain=unity-scope-pinyinsearch
+

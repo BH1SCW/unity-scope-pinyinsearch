@@ -1,1 +1,3 @@
 src/*.py usr/share/unity-scopes/pinyinsearch/
+debian/pinyinsearch.scope usr/share/unity/scopes/
+debian/unity-scope-pinyinsearch.service usr/share/dbus-1/services/
