@@ -1,0 +1,13 @@
+Source: unity-scope-pinyinsearch
+Section: utils
+Priority: optional
+Maintainer: Aron Xu <happyaron@ubuntu.com>
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.6
+Homepage: https://github.com/kroody/unity-scope-pinyinsearch
+
+Package: unity-scope-pinyinsearch
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}, chinese2pinyin
+Description: Pinyin Search scope for Unity
+ Scope that displays Pinyin Search results indexed by chinese2pinyin
