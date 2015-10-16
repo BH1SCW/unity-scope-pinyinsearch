@@ -84,6 +84,14 @@ def get_records_from_db(path, search):
 
     return results
 
+def get_icon_filename(filename):
+    final_filename = ""
+    if os.path.isfile(filename):
+        # Get the icon name
+        file = Gio.File.new_for_path(filename)
+        file_info = file.query_info('standard::icon', Gio.FileQueryInfoFlags.NONE, None)
+        return file_info.get_icon().to_string()
+
 
 def search(search, filters):
     results = []
@@ -92,9 +100,9 @@ def search(search, filters):
         return None
     for record in records:
         print (record)
-        icon = '/usr/share/icons/gnome/scalable/places/ubuntu-logo.png'
-        if not os.path.exists(icon):
+        if not os.path.exists(record):
             icon = None
+        icon = get_icon_filename(record)
         results.append({'uri': "file://" + record,
             'icon': icon,
             'category': 0,
